@@ -32,9 +32,13 @@ All steps are compossed in <main_for_lin_regr.py> file. To obtain the results of
 # Results 
 
 Adiabatic Linear Regression Evaluation Metrics on artificial data.
+    
 MAE of the model is 135.74.
+    
 MSE of the model is 92121.85.
+    
 RMSE of the model is 303.52.
+    
 R^2 of the model is 0.999992.
 
 # License
