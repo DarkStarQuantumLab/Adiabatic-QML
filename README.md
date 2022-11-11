@@ -1,6 +1,6 @@
 # Overview
 
-The Adiabatic QML repository contains the implementation of a Linear Regression on [DWave Quantum](https://github.com/dwavesystems) Annealer as described in Date, P. and Potok, T. "Adiabatic quantum linear regression". [image](results/artificial_data.png)
+The Adiabatic QML repository contains the implementation of a Linear Regression on [DWave Quantum Annealer](https://github.com/dwavesystems) as described in Date, P. and Potok, T. "Adiabatic quantum linear regression". [image](results/artificial_data.png)
 
 
 The code implementation is similar to the classical ML frameworks. However, the loss-function optimization has been adopted and implemented in such a way that it could be submitted to DWave Quantum Annealers. The Qauntum Annealer minimizes the loss and returns a distribution of possible linear regressions. The algorithm has been tested on the Simulated Annealing only.
