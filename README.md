@@ -41,6 +41,10 @@ RMSE of the model is 303.52.
     
 R^2 of the model is 0.999992.
 
+# Example and Application
+
+An example of the Adiabatic Linear Regression model application on the real medical data can be found in the [HearAxis repository](https://github.com/elenasuraeva/HeartAxis). The project aims at computing the mean electric axis of the heart on IBM quantum hardaware and making the heart axis prediction using the DWave Quantum Annealers. 
+
 # License
 This work is licensed under the [Apache 2 License](https://www.apache.org/licenses/LICENSE-2.0) and is owned by [DarkStarQuantumLab](https://github.com/DarkStarQuantumLab). 
 
