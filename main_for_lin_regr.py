@@ -2,8 +2,7 @@
 
 import numpy as np
 import sklearn.datasets as dt
-from linear.annealing_lin_regression import QALinearRegression
-from utils import get_data_for_training
+from qml_adiabatic import QALinearRegression
 from sklearn.linear_model import LinearRegression
 import matplotlib.pyplot as plt
 
