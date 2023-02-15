@@ -13,7 +13,7 @@
 
 import itertools
 import numpy as np
-from linear.annealing_optimizer import QAOptimizer
+from .annealing_optimizer import QAOptimizer
 
 
 class QALinearRegression():
