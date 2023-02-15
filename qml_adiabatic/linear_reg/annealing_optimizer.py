@@ -21,7 +21,9 @@ import itertools
 
 
 class QAOptimizer:
-    """Quantum Annealing optimizer 
+    """Quantum Annealing optimizer.
+        
+       Minimizes a loss function as optimization problem, QUBO, on a quantum annealer. 
     """
 
     def __init__(self, num_of_vars, backend):

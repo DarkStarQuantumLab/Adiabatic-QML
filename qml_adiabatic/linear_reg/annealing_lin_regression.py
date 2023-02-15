@@ -21,7 +21,7 @@ class QALinearRegression():
 
         y_i = x_0 + w_i * x_i.
 
-        The QALinearRegression fits the linear mode with coeficients w_n to minimize the 
+        The QALinearRegression fits the linear model with coeficients w_n to minimize the 
         sum of squares between the observed data in the dataset and predicted data.
         The minimization is submited to Simulated Annealing (classical part) or QPU.
     """
@@ -32,7 +32,7 @@ class QALinearRegression():
         self.is_trained = False
     
     def _check_is_trained(self):
-        """Validates, a model was trained before making a prediction."""
+        """Validate a model training before making a prediction."""
 
         if not self.is_trained:
             raise Exception("Train the model before prediction. \
@@ -61,24 +61,22 @@ class QALinearRegression():
                             if it contains a single sample.""")
         _, self.num_features = x.shape
 
-        #TODO: handle normilization
+        #TODO: handle normalization
         if self.normalize:
             pass
 
         dimention = x.ndim
         array_length = len(x)
-        # def precision vector and precision matrix
-        # # this values of the precision vector worked for QRS Axis
-        # p_vector = np.array([ -0.0625, -0.03125, -0.015625, -0.0078125, 0.015625, 0.03125, 0.0625, 0.125])
 
+        # define precision vector and precision matrix
         # for artificial data
         p_vector = np.array([0.25, 0.25, 0.5, 0.5, 0.75])
+
         # issue with dimention
         # temporarly, set dimention to 2, change later
         dimention = 2 
         identity = np.identity(dimention)
         precision_matrix = np.kron(identity, p_vector)
-        # print('precision_matrix = ', precision_matrix)
 
         # prepare data to train the model on a quantum annealer
         augment_ones = np.ones(array_length)
