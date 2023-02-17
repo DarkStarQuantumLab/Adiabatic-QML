@@ -47,6 +47,15 @@ R^2 of the model is 0.9383279200487923.
 
 An example of the Adiabatic Linear Regression model application on the real medical data can be found in the [HearAxis repository](https://github.com/elenasuraeva/HeartAxis). The project aims at computing the mean electric axis of the heart on IBM quantum hardaware and making the heart axis prediction using the DWave Quantum Annealers. 
 
+# Disclamer
+
+The code in this repository is distributed on an "AS IS" basis, without any warranties or conditions of any kind. 
+
+The code was tested on a classical CPU as Simulated Annealing algorithm. To submit the code to a quantum hardware, a DWave's cloud API is required. More information could be found in the [dwave-cloud-client](https://docs.ocean.dwavesys.com/en/stable/docs_cloud/sdk_index.html) resource. 
+
+To submit problems to Leap solvers, use a ``dwave-system``solver. More details can be found in the
+[Ocean documentation](https://docs.ocean.dwavesys.com/en/stable/index.html).
+
 # License
 This work is licensed under the [Apache 2 License](https://www.apache.org/licenses/LICENSE-2.0) and is owned by [DarkStarQuantumLab](https://github.com/DarkStarQuantumLab). 
 
