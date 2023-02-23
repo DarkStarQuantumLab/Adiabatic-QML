@@ -40,6 +40,7 @@ Adiabatic Linear Regression Metrics on artificial data set.
     Sklearn Linear Regression R^2 score on training data: 0.9855625769178462
 
 The following metrics for the Adiabatic Linear Regression were obtained for the test sample.
+
     MAE of test data is 62.2324098629971.
         
     MSE of test data is 116186.18512068177.
