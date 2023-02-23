@@ -33,15 +33,23 @@ All steps are compossed in <main_for_lin_regr.py> file. To obtain the results of
 
 # Results 
 
-Adiabatic Linear Regression Evaluation Metrics on artificial data set.
+Adiabatic Linear Regression Metrics on artificial data set.
     
-MAE of the model is 3.5695330167026347.
-    
-MSE of the model is 127.41565957330212.
-    
-Root MSE of the model is 11.287854515952183.
-    
-R^2 of the model is 0.9383279200487923.
+    Adiabatic Linear Regression R^2 score on training data: 0.9756736682844375
+
+    Sklearn Linear Regression R^2 score on training data: 0.9855625769178462
+
+The following metrics for the Adiabatic Linear Regression were obtained for the test sample.
+    MAE of test data is 62.2324098629971.
+        
+    MSE of test data is 116186.18512068177.
+        
+    Root MSE of test data is 340.860946898705.
+        
+    R^2 of test data is 0.8556382431264372.
+
+For comparison, R^2 of the Sklearn Linear Regression on test data is 0.9913720355920954.
+
 
 # Example and Application
 
