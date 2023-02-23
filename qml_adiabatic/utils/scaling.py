@@ -21,14 +21,16 @@ class Scaling():
     def __init__(self, scaler:str = "StandardScaler"):
         self.scaler_type = scaler
 
-    def scale(self, x, y):
+    def scale(self, training_data:dict):
         """Scales the data entries based on the scaler type provided.
             Supported scalers: StandardScaler, MaxAbsScaler, RobustScaler.
 
             Args:
+                training_data: a dictionary of train, label points.
             Return:
+                rescaled: a dictionary of the re-scaled train, label points.
+                scaling_factor: int, a scaling factor. 
         """
-        # StandardScaler MaxAbsScaler RobustScaler
         if self.scaler_type == "StandardScaler":
             scaler = StandardScaler()
         elif self.scaler_type == "MaxAbsScaler":
@@ -39,9 +41,9 @@ class Scaling():
             raise Warning("f{self.scaler_type} is not supported. \
                 The default sclaer StandardScaler will be used.")
             scaler = StandardScaler()
-
-        x = scaler.fit_transform(x)
-        y_labels = scaler.fit_transform(y.reshape(-1, 1))
-        y = y_labels.reshape(len(y))
+        rescaled = {}
+        for key, value in training_data.items():
+            rescaled[key] = scaler.fit_transform(value)
+        
         scaling_factor = scaler.scale_
-        return x, y, scaling_factor
+        return rescaled, scaling_factor
