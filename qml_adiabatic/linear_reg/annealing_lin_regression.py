@@ -113,7 +113,6 @@ class QALinearRegression():
         binary_set_of_weights = optimizer.minimize_loss(quadratic, linear)
 
         # select the best line base on R^2-score 
-        # TODO: R^2 socre captures best fit poorly. Implement other critirias
         r_score = 0.0 
         for sol in binary_set_of_weights.record:
             minimized_weights = precision_matrix @ sol[0]
