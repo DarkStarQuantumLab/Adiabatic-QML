@@ -14,6 +14,11 @@
 import itertools
 import numpy as np
 from .annealing_optimizer import QAOptimizer
+import matplotlib.pyplot as plt
+from sklearn.metrics import r2_score
+from sklearn.preprocessing import MinMaxScaler, RobustScaler, MaxAbsScaler, scale, StandardScaler
+from qml_adiabatic.utils.scaling import Scaling
+
 
 
 class QALinearRegression():
@@ -26,10 +31,17 @@ class QALinearRegression():
         The minimization is submited to Simulated Annealing (classical part) or QPU.
     """
 
-    def __init__(self, normalize=False):
+    def __init__(self, scaler, normalize=False, **params):
         self.normalize = normalize
         self.type = 'linear'
         self.is_trained = False
+        self.scaler_type = scaler
+
+        if  "precision_vector" in params:  
+            self.precision_vector = np.sort(params['precision_vector'])
+        else:
+            self.precision_vector = np.array([0.25, 0.25, 0.5, 0.5, 0.75])
+
     
     def _check_is_trained(self):
         """Validate a model training before making a prediction."""
@@ -38,6 +50,14 @@ class QALinearRegression():
             raise Exception("Train the model before prediction. \
                             model = QALinearRegression \
                             model.train(x_points, y_labels)")
+
+    def _scale(self, to_scale):
+        scaler = Scaling(self.scaler_type)
+        
+        rescaled, self.scaling = scaler.scale(to_scale)
+        x = rescaled["x"]
+        y = rescaled["y"]
+        return x, y
 
     def train(self, x:np.array, y:np.array, backend='SA'):
         """ Train the QA linear model.
@@ -60,48 +80,49 @@ class QALinearRegression():
                             if your data has a single feature, or array.reshape(1, -1) 
                             if it contains a single sample.""")
         _, self.num_features = x.shape
-
-        #TODO: handle normalization
+   
         if self.normalize:
-            pass
+            y = y.reshape(-1,1)
+            data = {"x":x, "y":y}
+            x, y = self._scale(data)
+            y = y.reshape(len(y))
 
         dimention = x.ndim
         array_length = len(x)
 
-        # define precision vector and precision matrix
-        # for artificial data
-        p_vector = np.array([0.25, 0.25, 0.5, 0.5, 0.75])
-
-        # issue with dimention
-        # temporarly, set dimention to 2, change later
-        dimention = 2 
-        identity = np.identity(dimention)
-        precision_matrix = np.kron(identity, p_vector)
+        p_vector = self.precision_vector
 
         # prepare data to train the model on a quantum annealer
         augment_ones = np.ones(array_length)
       
         x = np.reshape(x, -1)
         x_quantum = np.vstack((augment_ones, x))
+        dimention = x_quantum.ndim
+        p_vec_length = len(p_vector)
+        identity = np.identity(dimention)
+        precision_matrix = np.kron(identity, p_vector)
         
         # create regression coefficients as matrix multiplication
         # here, regression vector is the QUBO matrix submitted to DWave's BQM model 
         regression_vector = np.transpose(precision_matrix) @ x_quantum @ np.transpose(x_quantum) @ precision_matrix
-        quadratic = np.triu(2*regression_vector) #quadratic coeff. 
-
-        # linear part of the QUBO model
-        linear_vector = np.transpose(precision_matrix) @ x_quantum @ np.transpose(y)
+        quadratic = np.triu(2*regression_vector) #quadratic coeff
+        linear_vector = np.transpose(precision_matrix) @ x_quantum @ np.transpose(y) #linear coeff
         linear = -2.0 * linear_vector
 
-        optimizer = QAOptimizer(len(y), backend=backend)
+        optimizer = QAOptimizer(dimention, p_vec_length, backend=backend)
         binary_set_of_weights = optimizer.minimize_loss(quadratic, linear)
 
-        # currently, the most optimized set of weights selected, 
-        # think how to emplement as the range of linear models. 
-
-        minimized_weights = precision_matrix @ binary_set_of_weights.record[0][0]
-
-        self.model_weights = minimized_weights
+        # select the best line base on R^2-score 
+        # TODO: R^2 socre captures best fit poorly. Implement other critirias
+        r_score = 0.0 
+        for sol in binary_set_of_weights.record:
+            minimized_weights = precision_matrix @ sol[0]
+            y_predicted = np.array(minimized_weights[1]) * x + minimized_weights[0] * np.ones(len(y))
+            # print("R^2 score = ", self.r_score(y, y_predicted))
+            if self.r_score(y, y_predicted) > r_score:
+                r_score = self.r_score(y, y_predicted)
+                self.model_weights = minimized_weights
+      
         self.is_trained = True
 
 
@@ -120,15 +141,15 @@ class QALinearRegression():
         if num_rows != self.num_features:
             raise ValueError("X has {} but QALinearRegression expects {} as input.".format(num_rows, self.num_features))
 
-        # print("self.model_weights = ", self.model_weights)
-        weight = np.array(self.model_weights[1])
-        y_predicted = weight * x
-       
-        return y_predicted
+        scaler = Scaling(self.scaler_type) #rescale the data
+        rescaled, _ = scaler.scale({"x":x})
+        y_predicted = rescaled["x"] * np.array(self.model_weights[1]) 
+
+        return y_predicted * self.scaling[0]
 
     def r_score(self, y_act:np.array, y_pred:np.array) -> float:
         """
-        Calculates the Coefficient of Determination using numpy.
+        Calculates the Coefficient of Determination using sklearn built-in R^2 score.
         Args:
             y_act: (np.array) actual data points
             y_pred: (np.array) predicted by model datapoints
@@ -136,9 +157,7 @@ class QALinearRegression():
             r_score: Square root of the Coefficient of Determination.
         """
 
-        corr_matrix = np.corrcoef(y_act, y_pred.reshape(1, len(y_act)))
-        corr = corr_matrix[0,1]
-        return corr**2
+        return r2_score(y_act, y_pred)
 
     def mse(self, y_act:np.array, y_pred:np.array) -> float:
         """
