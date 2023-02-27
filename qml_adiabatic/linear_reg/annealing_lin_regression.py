@@ -16,9 +16,7 @@ import numpy as np
 from .annealing_optimizer import QAOptimizer
 import matplotlib.pyplot as plt
 from sklearn.metrics import r2_score
-from sklearn.preprocessing import MinMaxScaler, RobustScaler, MaxAbsScaler, scale, StandardScaler
 from qml_adiabatic.utils.scaling import Scaling
-
 
 
 class QALinearRegression():

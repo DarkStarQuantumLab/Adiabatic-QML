@@ -19,8 +19,6 @@ from sklearn.model_selection import train_test_split
 import matplotlib.pyplot as plt
 from sklearn.metrics import r2_score
 
-import os
-import imageio
 
 if __name__ == "__main__":
     
