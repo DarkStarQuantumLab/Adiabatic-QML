@@ -52,9 +52,12 @@ The following metrics for the Adiabatic Linear Regression were obtained for the 
 For comparison, R^2 of the Sklearn Linear Regression on test data is 0.9913720355920954.
 
 
-# Example and Application
+# Examples and Application
 
-An example of the Adiabatic Linear Regression model application on the real medical data can be found in the [HearAxis repository](https://github.com/elenasuraeva/HeartAxis). The project aims at computing the mean electric axis of the heart on IBM quantum hardaware and making the heart axis prediction using the DWave Quantum Annealers. 
+A getting started example on training the Adiabatic Linear Regression on the synthetic data is in [LinearRegression_on_SyntheticData](https://github.com/DarkStarQuantumLab/Adiabatic-QML/blob/main/tutorials/LinRegr_on_SyntheticData.ipynb).
+
+
+An example of the Adiabatic Linear Regression model application on the real medical data can be found in the [HeartFailuresPrediction](https://github.com/DarkStarQuantumLab/Adiabatic-QML/blob/main/tutorials/HeartFailuresPrediction_RealDataSet.ipynb) and more details can be found in the [HearAxis repository](https://github.com/elenasuraeva/HeartAxis). The project aims at computing the mean electric axis of the heart on IBM quantum hardaware and making the heart axis prediction using the DWave Quantum Annealers. 
 
 # Disclamer
 
@@ -71,4 +74,6 @@ This work is licensed under the [Apache 2 License](https://www.apache.org/licens
 [![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
 # References
+
 1. Date, P., Potok, T. Adiabatic quantum linear regression. Sci Rep 11, 21905 (2021). https://doi.org/10.1038/s41598-021-01445-6
+2.  Giovanardi, P.; Vernia, C.; Tincani, E.; Giberti, C.; Silipo, F.; Fabbo, A. Combined Effects of Age and Comorbidities on Electrocardiographic Parameters in a Large Non-Selected Population. J. Clin. Med. 2022, 11, 3737. https://doi.org/10.3390/jcm11133737.
