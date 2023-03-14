@@ -119,6 +119,10 @@ class QALinearRegression():
             if self.r_score(y, y_predicted) > r_score:
                 r_score = self.r_score(y, y_predicted)
                 self.model_weights = minimized_weights
+            else:
+                raise Exception("Non-linear dataset detected. The model could not find a good linear \
+                                 approximation for the training dataset.")
+                exit()
       
         self.is_trained = True
 
@@ -141,7 +145,7 @@ class QALinearRegression():
         scaler = Scaling(self.scaler_type) #rescale the data
         rescaled, _ = scaler.scale({"x":x})
         y_predicted = rescaled["x"] * np.array(self.model_weights[1]) 
-
+        #+ np.ones((len(x),1)) * np.array(self.model_weights[0])
         return y_predicted * self.scaling[0]
 
     def r_score(self, y_act:np.array, y_pred:np.array) -> float:
