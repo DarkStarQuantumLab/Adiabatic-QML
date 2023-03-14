@@ -41,11 +41,11 @@ Adiabatic Linear Regression Metrics on artificial data set.
 
 The following metrics for the Adiabatic Linear Regression were obtained for the test sample.
 
-    MAE of test data is 62.2324098629971.
+    MAE of test data is 14.77030181497341.
         
-    MSE of test data is 116186.18512068177.
+    MSE of test data is 401.6894505514629.
         
-    Root MSE of test data is 340.860946898705.
+    Root MSE of test data is 20.042191760170915.
         
     R^2 of test data is 0.8556382431264372.
 
