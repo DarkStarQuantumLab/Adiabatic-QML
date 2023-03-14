@@ -15,7 +15,7 @@ import itertools
 import numpy as np
 from .annealing_optimizer import QAOptimizer
 import matplotlib.pyplot as plt
-from sklearn.metrics import r2_score
+from sklearn.metrics import r2_score, mean_squared_error, mean_absolute_error
 from qml_adiabatic.utils.scaling import Scaling
 
 
@@ -119,10 +119,10 @@ class QALinearRegression():
             if self.r_score(y, y_predicted) > r_score:
                 r_score = self.r_score(y, y_predicted)
                 self.model_weights = minimized_weights
-            else:
-                raise Exception("Non-linear dataset detected. The model could not find a good linear \
-                                 approximation for the training dataset.")
-                exit()
+
+        if r_score <= 0.0:
+            raise Exception("Non-linear dataset detected. The model could not find a good linear approximation for the training dataset.")
+            exit()
       
         self.is_trained = True
 
@@ -162,15 +162,15 @@ class QALinearRegression():
 
     def mse(self, y_act:np.array, y_pred:np.array) -> float:
         """
-        Calculates the Mean Square Error (MSE) using numpy.
+        Calculates the Mean Squared Error (MSE) using numpy.
         Args:
             y_act: (np.array) actual data points
             y_pred: (np.array) predicted by model datapoints
         Return:
             mse: calculated MSE score.
         """
-        mse = (np.linalg.norm(y_act - y_pred)**2)/len(y_act)
-        return mse
+        # mse = (np.linalg.norm(y_act - y_pred)**2)/len(y_act)
+        return mean_squared_error(y_act, y_pred)
 
     def root_mse(self, y_act:np.array, y_pred:np.array) -> float:
         """
@@ -181,7 +181,7 @@ class QALinearRegression():
         Return:
             root_mse: calculated squre root of MSE
         """
-        mse = (np.linalg.norm(y_act - y_pred)**2)/len(y_act)
+        mse = mean_squared_error(y_act, y_pred)
         return np.sqrt(mse)
 
     def mae(self, y_act:np.array, y_pred:np.array) -> float:   
@@ -193,6 +193,6 @@ class QALinearRegression():
         Return:
             mae: calculated MAE score
         """
-        mae = (np.linalg.norm(np.abs(y_act - y_pred))) / len(y_act)
-        return mae
+        
+        return mean_absolute_error(y_act, y_pred)
 
